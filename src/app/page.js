@@ -17,50 +17,23 @@ export default function Home() {
     };
 
     return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-        <div>
-            <h2>Add Language and Word</h2>
-            <form onSubmit={handleSubmit}>
-                <label htmlFor="language">Language:</label>
-                <input
-                    type="text"
-                    id="language"
-                    value={language}
-                    onChange={(e) => setLanguage(e.target.value)}
-                    required
-                />
-                <br />
-                <br />
-                <label htmlFor="word">Word:</label>
-                <input
-                    type="text"
-                    id="word"
-                    value={word}
-                    onChange={(e) => setWord(e.target.value)}
-                    required
-                />
-                <br />
-                <br />
-                <input type="submit" value="Submit" />
-            </form>
-            <br />
-            <table>
-                <thead>
-                    <tr>
-                        <th>Language</th>
-                        <th>Word</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {wordList.map((item, index) => (
-                        <tr key={index}>
-                            <td>{item.language}</td>
-                            <td>{item.word}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+      <form className="container mx-auto my-5">
+        <div className="space-y-12">
+          <div className="border-b border-gray-900/10 pb-12">
+            <h2 className="text-base font-semibold leading-7 text-gray-900">Conjugations</h2>
+            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+              <div className="sm:col-span-4">
+                <label for="username" className="block text-sm font-medium leading-6 text-gray-900">Word</label>
+                <div className="mt-2">
+                  <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+                    <input type="text" name="username" id="username" autocomplete="username" className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" placeholder="Word" />
+                    <button type="submit" className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Search</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </main>
+      </form>
     );
 }
