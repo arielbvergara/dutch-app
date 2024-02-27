@@ -1,16 +1,13 @@
+'use client'
+
 import { useState } from 'react';
 
 const OpenAIComponent = () => {
-  // set the prompt text and watch for changes
   const [prompt, setPrompt] = useState('');
-  // Set the generated text and watch for changes
   const [generatedText, setGeneratedText] = useState('');
-
-  // Send the prompt to the API and set the generated text
+  
   const fetchGeneratedText = async () => {
-    console.log(prompt);
     try {
-      // fetch the generated text from the Next.js API server
       const response = await fetch('/api/openai', {
         method: 'POST',
         headers: {
@@ -18,25 +15,18 @@ const OpenAIComponent = () => {
         },
         body: JSON.stringify({ prompt: prompt }),
       });
-
-      const res = await response.json();
-
-      console.log("res", res);
       
-      // if the response is not ok, throw an error
-      if (!response.ok) {
-        setGeneratedText(`Error fetching generated text: ${response.statusText}`);
-      }
-      // get the data from the response
       const data = await response.json();
-      // if the data is not null, set the generated text
-      if(data !== null){
-        setGeneratedText(data.trim());
+      if (response.status !== 200) {
+        setGeneratedText(`Status error when fetching generated text: ${response.status}`);
+      }
+      
+      if(data?.message?.choices[0]?.message?.content !== null){
+        setGeneratedText(data.message.choices[0].message.content.trim());
         setPrompt('');
       }
-      // if there is an error, set the generated text to the error message
     } catch (error) {
-      setGeneratedText('Error fetching generated text:', error.message);
+      setGeneratedText('Error fetching generated text:', error);
     }
     
   };
@@ -58,7 +48,7 @@ const OpenAIComponent = () => {
       </div>
       <div className="response">
         <h3>Generated Text:</h3>
-        <p>{generatedText}</p>
+        <p>{ generatedText }</p>
       </div>
     </div>
   );
