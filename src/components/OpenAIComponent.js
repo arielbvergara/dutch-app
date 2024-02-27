@@ -57,7 +57,9 @@ const OpenAIComponent = () => {
           loading 
           ? 
             (
-              <span className="loading loading-spinner text-primary"></span>
+              <div>
+                <span className="loading loading-spinner text-primary"></span>
+              </div>
             )
           : 
             (
