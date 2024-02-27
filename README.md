@@ -41,3 +41,6 @@ https://eu-central-1.console.aws.amazon.com/translate/home?region=eu-central-1#w
 
 ## Verb conjugation in dutch
 https://api.verbix.com/conjugator/html
+
+## Open AI playground
+https://platform.openai.com/playground/p/aBhmFn8fDX0IGHWgQLyJXb9e?mode=chat
