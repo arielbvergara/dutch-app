@@ -73,7 +73,7 @@ const OpenAIComponent = () => {
                 <div className="card grid h-20 place-items-center rounded-box bg-base-300">
                   <p>{ generatedData?.present_perfect?.example }</p>
                 </div>
-              </div>  
+              </div>   
             )
         }
         {notificationMessage && <p>Error: { notificationMessage }</p>}
