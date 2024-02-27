@@ -16,7 +16,7 @@ export async function POST(request) {
         messages: [
           {
             "role": "system",
-            "content": "You are a system that translate and conjugate a verb from english or spanish to Dutch and conjugate the verb in present perfect. You return the result in a json format like the following:\n\n{\n    \"infinitive\"\n    \"present_perfect\": [{\n        \"pronoun\"\n        \"aux_verb\"\n        \"verb\"\n    }]\n}"
+            "content": "You are a system that translate and conjugate a verb from english or spanish to DUTCH and conjugate the AUXILIAR VERB and the VERB in present perfect. You return the result in a json format like the following:\n\n{\n    \"infinitive\"\n    \"present_perfect\": {\n        \"aux_verb\"\n        \"verb\"\n        \"example\"\n    }\n}"
           },
           {
             "role": "user",
