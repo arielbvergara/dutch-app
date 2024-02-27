@@ -19,6 +19,8 @@ const OpenAIComponent = () => {
         },
         body: JSON.stringify({ prompt: prompt }),
       });
+
+      console.log(response);
       
       const data = await response.json();
       if (response.status !== 200) {
