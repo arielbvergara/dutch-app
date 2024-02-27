@@ -4,10 +4,13 @@ import { useState } from 'react';
 
 const OpenAIComponent = () => {
   const [prompt, setPrompt] = useState('');
-  const [generatedText, setGeneratedText] = useState('');
-  
-  const fetchGeneratedText = async () => {
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [generatedData, setGeneratedData] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await fetch('/api/openai', {
         method: 'POST',
         headers: {
@@ -18,17 +21,19 @@ const OpenAIComponent = () => {
       
       const data = await response.json();
       if (response.status !== 200) {
-        setGeneratedText(`Status error when fetching generated text: ${response.status}`);
+        setNotificationMessage(`Error fetching data: ${response.status}`);
       }
       
       if(data?.message?.choices[0]?.message?.content !== null){
-        setGeneratedText(data.message.choices[0].message.content.trim());
+        setGeneratedData(JSON.parse(data.message.choices[0].message.content.trim()));
         setPrompt('');
       }
     } catch (error) {
-      setGeneratedText('Error fetching generated text:', error);
+      setNotificationMessage('Error fetching data', error);
     }
-    
+    finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -44,12 +49,17 @@ const OpenAIComponent = () => {
         onChange={(e) => setPrompt(e.target.value)}
       />
       </div>
-      <button onClick={fetchGeneratedText}>Generate Text</button>
+      <button onClick={fetchData}>Generate Text</button>
       </div>
       <div className="response">
         <h3>Generated Text:</h3>
-        <p>{ generatedText }</p>
+        <p>{ generatedData?.infinitive }</p>
+        <p>{ generatedData?.present_perfect?.aux_verb }</p>
+        <p>{ generatedData?.present_perfect?.verb }</p>
+        <p>{ generatedData?.present_perfect?.example }</p>
       </div>
+      {loading && <p>Loading...</p>}
+      {notificationMessage && <p>Error: { notificationMessage }</p>}
     </div>
   );
 };
