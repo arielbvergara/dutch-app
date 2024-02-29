@@ -1,6 +1,10 @@
 'use client'
 
 import { useState } from 'react';
+import Verb, { Past } from './verb';
+import Loading from './loading';
+import WordTranslation from './wordTranslation';
+import SentenceTranslation from './sentenceTranslation';
 
 const OpenAIComponent = () => {
   const [prompt, setPrompt] = useState('');
@@ -28,8 +32,8 @@ const OpenAIComponent = () => {
       }
       
       if(data?.message?.choices[0]?.message?.content !== null){
+        console.log(data.message.choices[0].message.content);
         setGeneratedData(JSON.parse(data.message.choices[0].message.content.trim()));
-        setPrompt('');
       }
     } catch (error) {
       setNotificationMessage('Error fetching data', error);
@@ -42,7 +46,7 @@ const OpenAIComponent = () => {
   return (
     <form method='POST' onSubmit={fetchData} className="container flex w-full justify-center justify-items-center p-5">
       <div className='flex w-5/6 flex-col justify-center justify-items-center text-center'>
-        <h2 className='my-5 text-xl'>Present perfect</h2>
+        <h2 className='my-5 text-xl'>Search</h2>
         <div className="prompt">
           <div>
             <label className="input input-bordered my-5 flex items-center gap-2">
@@ -59,23 +63,20 @@ const OpenAIComponent = () => {
           loading 
           ? 
             (
-              <div>
-                <span className="loading loading-spinner text-primary"></span>
-              </div>
+              <Loading />
             )
           : 
             (
-              <div className="flex w-full flex-col">
-                <div className="card grid h-40 place-items-center rounded-box bg-base-300">
-                  <p>{ generatedData?.infinitive }</p>
-                  <p>{ generatedData?.present_perfect?.aux_verb }</p>
-                  <p>{ generatedData?.present_perfect?.verb }</p>
-                </div> 
-                <div className="divider divider-primary"></div>
-                <div className="card grid h-20 place-items-center rounded-box bg-base-300">
-                  <p>{ generatedData?.present_perfect?.example }</p>
-                </div>
-              </div>   
+              generatedData && generatedData.type == "verb" && <Verb generatedData={generatedData} />
+              
+              || 
+              
+              generatedData && generatedData.type == "word_translation" && <WordTranslation generatedData={generatedData} />
+              
+              || 
+              
+              generatedData && generatedData.type == "sentence_translation" && <SentenceTranslation generatedData={generatedData} />
+              
             )
         }
         {notificationMessage && <p>Error: { notificationMessage }</p>}
